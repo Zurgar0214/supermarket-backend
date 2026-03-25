@@ -1,7 +1,7 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/database');
 
-const Role = sequelize.define('Role', {
+const Provider = sequelize.define('Provider', {
   id: {
     type: DataTypes.UUID,
     defaultValue: DataTypes.UUIDV4,
@@ -10,15 +10,25 @@ const Role = sequelize.define('Role', {
   name: {
     type: DataTypes.STRING,
     allowNull: false,
-    unique: true,
   },
-  description: {
+  phone: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  email: {
+    type: DataTypes.STRING,
+    allowNull: true,
+    validate: {
+      isEmail: true,
+    },
+  },
+  city: {
     type: DataTypes.STRING,
     allowNull: true,
   },
 }, {
-  tableName: 'roles',
+  tableName: 'providers',
   timestamps: true,
 });
 
-module.exports = Role;
+module.exports = Provider;
