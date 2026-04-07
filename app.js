@@ -1,11 +1,19 @@
 const express = require('express');
+const swaggerUi = require('swagger-ui-express');
+const swaggerSpec = require('./src/config/swagger');
 const DatabaseSync = require('./src/config/sync');
+
+const healthRoutes = require('./src/routes/health.routes');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
+app.use('/api', healthRoutes);
 
 app.get('/', (req, res) => {
   res.send('Server is running successfully');
