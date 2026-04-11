@@ -3,7 +3,11 @@ const swaggerUi = require('swagger-ui-express');
 const swaggerSpec = require('./src/config/swagger');
 const DatabaseSync = require('./src/config/sync');
 
+// Rutas
 const healthRoutes = require('./src/routes/health.routes');
+const productRoutes = require('./src/routes/product.routes');
+const userRoutes = require('./src/routes/user.routes');
+const providerRoutes = require('./src/routes/provider.routes');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -11,24 +15,37 @@ const PORT = process.env.PORT || 3000;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Swagger
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
-app.use('/api', healthRoutes);
+// Rutas principales
+app.use('/api/health', healthRoutes);
+app.use('/api/products', productRoutes);
+app.use('/api/users', userRoutes);
+app.use('/api/providers', providerRoutes);
 
+// Ruta base
 app.get('/', (req, res) => {
-  res.send('Server is running successfully');
+    res.send('Server is running successfully 🚀');
 });
 
+// Manejo de rutas no existentes
+app.use((req, res) => {
+    res.status(404).json({ error: 'Ruta no encontrada' });
+});
+
+// Inicialización
 const startServer = async () => {
-  try {
-    await DatabaseSync.sync();
-    
-    app.listen(PORT, () => {
-      console.log(`Server running at http://localhost:${PORT}`);
-    });
-  } catch (error) {
-    console.error('Failed to start server: ', error);
-  }
+    try {
+        await DatabaseSync.sync();
+
+        app.listen(PORT, () => {
+            console.log(`Server running at http://localhost:${PORT}`);
+        });
+
+    } catch (error) {
+        console.error('Failed to start server: ', error);
+    }
 };
 
 startServer();
