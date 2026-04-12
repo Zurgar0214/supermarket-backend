@@ -8,6 +8,8 @@ const healthRoutes = require('./src/routes/health.routes');
 const productRoutes = require('./src/routes/product.routes');
 const userRoutes = require('./src/routes/user.routes');
 const providerRoutes = require('./src/routes/provider.routes');
+const salesRoutes = require('./src/routes/sales.routes');
+const salesDetailsRoutes = require('./src/routes/salesDetails.routes');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -23,6 +25,8 @@ app.use('/api/health', healthRoutes);
 app.use('/api/products', productRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/providers', providerRoutes);
+app.use('/api/sales', salesRoutes);
+app.use('/api/sales-details', salesDetailsRoutes);
 
 // Ruta base
 app.get('/', (req, res) => {
