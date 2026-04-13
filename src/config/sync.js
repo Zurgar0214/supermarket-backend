@@ -11,8 +11,6 @@ class DatabaseSync {
           console.error('Unable to connect to the database: ', error);
         });
 
-      // alter: true actualiza las tablas existentes sin borrarlas. 
-      // alter: false solo crea las tablas si no existen.
       await sequelize.sync({ alter: true });
       console.log('Database synchronized successfully.');
     } catch (error) {

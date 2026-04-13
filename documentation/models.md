@@ -1,6 +1,6 @@
 # Database Entity Relationship Diagram
 
-This document contains the Entity-Relationship Diagram (ERD) for the supermarket-backend project, generated based on the updated models.
+This document contains the Entity-Relationship Diagram (ERD) for the supermarket-backend project
 
 ## Diagram
 

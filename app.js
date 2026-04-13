@@ -30,12 +30,12 @@ app.use('/api/sales-details', salesDetailsRoutes);
 
 // Ruta base
 app.get('/', (req, res) => {
-    res.send('Server is running successfully 🚀');
+    res.send(`Server is running successfully 🚀, go -> http://localhost:${PORT}/api-docs to test the API`);
 });
 
 // Manejo de rutas no existentes
 app.use((req, res) => {
-    res.status(404).json({ error: 'Ruta no encontrada' });
+    res.status(404).json({ error: `Route not found, go -> http://localhost:${PORT}/api-docs` });
 });
 
 // Inicialización
