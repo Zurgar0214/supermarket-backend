@@ -6,8 +6,8 @@ Este es el backend de un sistema de gestión de supermercados, construido con No
 
 - **Inicio Asíncrono**: El servidor solo inicia si la conexión a la base de datos es exitosa.
 - **UUID como llaves primarias**: Todos los modelos utilizan UUID v4 como identificadores únicos para mayor seguridad y escalabilidad.
-- **Mapeo Relacional**: Incluye modelos predefinidos para `Users` (Usuarios) y `Roles` con asociaciones establecidas.
-- **Eliminaciones en Cascada**: Las relaciones están configuradas con `ON DELETE CASCADE` para mantener la integridad de los datos.
+- **Mapeo Relacional**: Incluye modelos para `Usuarios`, `Proveedores`, `Productos`, `Ventas` y `Detalles de Venta`.
+- **Integridad de Datos**: Las relaciones están configuradas con `ON DELETE CASCADE` y otras restricciones para mantener la consistencia.
 
 ## 🛠️ Tecnologías
 
@@ -16,7 +16,6 @@ Este es el backend de un sistema de gestión de supermercados, construido con No
 - **PostgreSQL** (vía `pg` & `pg-hstore`)
 - **Nodemon** (Entorno de desarrollo)
 - **Dotenv** (Gestión de variables de entorno)
-- **Bcryptjs** (Encriptación de contraseñas)
 
 ## 📁 Estructura del Proyecto
 
@@ -27,11 +26,14 @@ supermarket-backend/
 │   │   └── database.js    # Configuración de Sequelize
 │   ├── models/
 │   │   ├── index.js       # Modelos centralizados y asociaciones
-│   │   ├── Role.js        # Modelo de Rol (Admin, Cashier, Customer)
+│   │   ├── Product.js     # Modelo de Producto
+│   │   ├── Provider.js    # Modelo de Proveedor
+│   │   ├── Sale.js        # Modelo de Venta
+│   │   ├── SaleDetail.js  # Modelo de Detalle de Venta
 │   │   └── User.js        # Modelo de Usuario
-│   ├── controllers/       # (Pendiente) Controladores de peticiones
-│   ├── routes/            # (Pendiente) Endpoints de la API
-│   └── services/          # (Pendiente) Lógica de negocio
+│   ├── controllers/       # Controladores de la API
+│   ├── routes/            # Endpoints de la API
+│   └── services/          # Lógica de negocio
 ├── .env                  # Variables de entorno (no rastreado por git)
 ├── .gitignore            # Archivos ignorados por git
 ├── app.js                # Punto de entrada y configuración del servidor
@@ -86,15 +88,28 @@ npm run dev
 npm start
 ```
 
-## 🔑 Módulo de Autenticación
+## 🗃️ Modelos y Entidades
 
-### Roles
-El sistema incluye actualmente los siguientes roles por defecto:
-- `admin`: Acceso total al sistema.
-- `cashier`: Acceso a operaciones de venta e inventario.
-- `customer`: Acceso limitado para gestión de perfil.
+El sistema gestiona la información agrupada en los siguientes módulos:
+- **Proveedores (Providers)**: Suministro e información de los proveedores.
+- **Productos (Products)**: Inventario de los artículos disponibles y stock.
+- **Usuarios (Users)**: Usuarios y gestores dentro del sistema.
+- **Ventas (Sales)**: Registro de cada transacción procesada.
+- **DetalleVentas (SaleDetails)**: Desglose línea por línea de los productos facturados en cada venta.
 
-### Modelos
-- **Roles**: Almacena los nombres y descripciones de los roles.
-- **Users**: Almacena la información del usuario, incluyendo una llave foránea `roleId` vinculada a la tabla Roles.
-- **Asociaciones**: `Role.hasMany(User)` con eliminación en cascada habilitada.
+## 👥 Equipo y Responsabilidades
+
+Responsabilidades de cada integrante del equipo:
+
+- **Juan Diego Varon Valencia**
+  - Configuración inicial del proyecto (Express, Nodemon) e integración de base de datos (PostgreSQL, Sequelize).
+  - Integración base de Swagger para documentación de API.
+  - Creación de rama de características base y modelos iniciales.
+
+- **Sandra Milena Ramos Melchor**
+  - Configuración general de la aplicación (`app.js`).
+  - Implementación integral de las funcionalidades CRUD para las entidades funcionales: **Usuarios**, **Proveedores** y **Productos**.
+
+- **Juan Diego Ramirez Muñoz**
+  - Desarrollo de la lógica de negocio estructurada (Controladores, Rutas y Servicios) orientada a facturación.
+  - Implementación y documentación en Swagger para los módulos transaccionales de **Ventas** (Sales) y **Detalles de Ventas** (Sales Details).
